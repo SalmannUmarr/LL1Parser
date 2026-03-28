@@ -1,0 +1,6 @@
+=== FIRST Sets ===
+Expr = { (, id }
+Term = { (, id }
+Factor = { (, id }
+ExprPrime = { +, epsilon }
+TermPrime = { *, epsilon }

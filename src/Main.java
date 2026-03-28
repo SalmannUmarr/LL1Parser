@@ -1,20 +1,27 @@
+import firstfollow.FirstSetCalculator;
 import grammar.Grammar;
 import grammar.GrammarReader;
 import grammar.LeftFactoring;
+import grammar.LeftRecursionRemover;
 import utils.FileUtils;
 import utils.Printer;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-        //change the file to make it run on different grammars
-        String grammarPath = "input/grammar2.txt";
+        String grammarPath = "input/grammar1.txt";
         String grammarLoadedPath = "output/grammar_loaded.txt";
         String grammarFactoredPath = "output/grammar_factored.txt";
+        String grammarNoRecursionPath = "output/grammar_no_left_recursion.txt";
+        String firstSetsPath = "output/first_sets.txt";
 
         GrammarReader reader = new GrammarReader();
         LeftFactoring leftFactoring = new LeftFactoring();
+        LeftRecursionRemover leftRecursionRemover = new LeftRecursionRemover();
+        FirstSetCalculator firstSetCalculator = new FirstSetCalculator();
 
         try {
             Grammar grammar = reader.readGrammarFromFile(grammarPath);
@@ -29,10 +36,19 @@ public class Main {
             System.out.println("\nGrammar saved to: " + grammarLoadedPath);
 
             Grammar factoredGrammar = leftFactoring.factorGrammar(grammar);
-
             Printer.printGrammar(factoredGrammar, "Grammar After Left Factoring");
             FileUtils.writeLines(grammarFactoredPath, Printer.grammarToLines(factoredGrammar));
             System.out.println("Factored grammar saved to: " + grammarFactoredPath);
+
+            Grammar noLeftRecursionGrammar = leftRecursionRemover.removeLeftRecursion(factoredGrammar);
+            Printer.printGrammar(noLeftRecursionGrammar, "Grammar After Left Recursion Removal");
+            FileUtils.writeLines(grammarNoRecursionPath, Printer.grammarToLines(noLeftRecursionGrammar));
+            System.out.println("Left recursion removed grammar saved to: " + grammarNoRecursionPath);
+
+            Map<String, Set<String>> firstSets = firstSetCalculator.computeFirstSets(noLeftRecursionGrammar);
+            Printer.printFirstFollow("FIRST Sets", firstSets);
+            FileUtils.writeLines(firstSetsPath, Printer.firstFollowToLines("FIRST Sets", firstSets));
+            System.out.println("FIRST sets saved to: " + firstSetsPath);
 
         } catch (IOException e) {
             System.out.println("File error: " + e.getMessage());

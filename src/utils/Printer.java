@@ -2,9 +2,7 @@ package utils;
 
 import grammar.Grammar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Printer {
 
@@ -29,6 +27,24 @@ public class Printer {
         System.out.println("\n=== " + title + " ===");
         for (String line : grammarToLines(grammar)) {
             System.out.println(line);
+        }
+    }
+
+    public static List<String> firstFollowToLines(String title, Map<String, Set<String>> sets) {
+        List<String> lines = new ArrayList<>();
+        lines.add("=== " + title + " ===");
+
+        for (Map.Entry<String, Set<String>> entry : sets.entrySet()) {
+            lines.add(entry.getKey() + " = { " + String.join(", ", entry.getValue()) + " }");
+        }
+
+        return lines;
+    }
+
+    public static void printFirstFollow(String title, Map<String, Set<String>> sets) {
+        System.out.println("\n=== " + title + " ===");
+        for (Map.Entry<String, Set<String>> entry : sets.entrySet()) {
+            System.out.println(entry.getKey() + " = { " + String.join(", ", entry.getValue()) + " }");
         }
     }
 }
