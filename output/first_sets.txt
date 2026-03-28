@@ -1,4 +1,6 @@
 === FIRST Sets ===
-Start = { b, c, a }
-Alpha = { b, c, a, epsilon }
-AlphaPrime = { c, a, epsilon }
+Expr = { (, id }
+Term = { (, id }
+Factor = { (, id }
+ExprPrime = { +, epsilon }
+TermPrime = { *, epsilon }

@@ -1,0 +1,8 @@
+Program -> StmtList
+StmtList -> Stmt StmtList | epsilon
+Stmt -> assign id = Expr ; | print ( Expr ) ;
+Expr -> Term ExprPrime
+ExprPrime -> + Term ExprPrime | epsilon
+Term -> Factor TermPrime
+TermPrime -> * Factor TermPrime | epsilon
+Factor -> ( Expr ) | id | num

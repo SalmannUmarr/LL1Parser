@@ -4,6 +4,8 @@ import grammar.Grammar;
 import grammar.GrammarReader;
 import grammar.LeftFactoring;
 import grammar.LeftRecursionRemover;
+import table.ParsingTable;
+import table.TableBuilder;
 import utils.FileUtils;
 import utils.Printer;
 
@@ -13,18 +15,20 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-        String grammarPath = "input/grammar3.txt";
+        String grammarPath = "input/grammar1.txt";
         String grammarLoadedPath = "output/grammar_loaded.txt";
         String grammarFactoredPath = "output/grammar_factored.txt";
         String grammarNoRecursionPath = "output/grammar_no_left_recursion.txt";
         String firstSetsPath = "output/first_sets.txt";
         String followSetsPath = "output/follow_sets.txt";
+        String parsingTablePath = "output/parsing_table.txt";
 
         GrammarReader reader = new GrammarReader();
         LeftFactoring leftFactoring = new LeftFactoring();
         LeftRecursionRemover leftRecursionRemover = new LeftRecursionRemover();
         FirstSetCalculator firstSetCalculator = new FirstSetCalculator();
         FollowSetCalculator followSetCalculator = new FollowSetCalculator();
+        TableBuilder tableBuilder = new TableBuilder();
 
         try {
             Grammar grammar = reader.readGrammarFromFile(grammarPath);
@@ -58,6 +62,12 @@ public class Main {
             Printer.printFirstFollow("FOLLOW Sets", followSets);
             FileUtils.writeLines(followSetsPath, Printer.firstFollowToLines("FOLLOW Sets", followSets));
             System.out.println("FOLLOW sets saved to: " + followSetsPath);
+
+            ParsingTable parsingTable =
+                    tableBuilder.buildParsingTable(noLeftRecursionGrammar, firstSets, followSets);
+            Printer.printParsingTable(noLeftRecursionGrammar, parsingTable);
+            FileUtils.writeLines(parsingTablePath, Printer.parsingTableToLines(noLeftRecursionGrammar, parsingTable));
+            System.out.println("Parsing table saved to: " + parsingTablePath);
 
         } catch (IOException e) {
             System.out.println("File error: " + e.getMessage());

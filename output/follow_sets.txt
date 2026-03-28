@@ -1,4 +1,6 @@
 === FOLLOW Sets ===
-Start = { $ }
-Alpha = { a }
-AlphaPrime = { a }
+Expr = { $, ) }
+Term = { +, $, ) }
+Factor = { *, +, $, ) }
+ExprPrime = { $, ) }
+TermPrime = { +, $, ) }

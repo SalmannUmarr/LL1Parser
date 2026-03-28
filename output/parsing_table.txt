@@ -1,0 +1,9 @@
+=== LL(1) Parsing Table ===
+Grammar is LL(1): YES
+
+               (                             )                             id                            +                             *                             $                             
+Expr           Expr -> Term ExprPrime                                      Expr -> Term ExprPrime                                                                                                  
+Term           Term -> Factor TermPrime                                    Term -> Factor TermPrime                                                                                                
+Factor         Factor -> ( Expr )                                          Factor -> id                                                                                                            
+ExprPrime                                    ExprPrime -> epsilon                                        ExprPrime -> + Term ExprPrime                               ExprPrime -> epsilon          
+TermPrime                                    TermPrime -> epsilon                                        TermPrime -> epsilon          TermPrime -> * Factor TermPrimeTermPrime -> epsilon          
